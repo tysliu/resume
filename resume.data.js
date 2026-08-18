@@ -29,7 +29,7 @@ const RESUME = {
 
   skills: [
     { cat: "cloud/platforms",  items: ["AWS", "GCP", "Azure"] },
-    { cat: "containers/iac",   items: ["Kubernetes", "Docker", "Terraform", "Ansible", "Helm"] },
+    { cat: "containers/iac",   items: ["Kubernetes", "Docker", "Terraform", "Packer", "Ansible", "Helm"] },
     { cat: "ci-cd/automation", items: ["CI/CD pipelines", "GitHub Actions", "GitLab CI", "Azure DevOps", "Argo CD", "GitOps"] },
     { cat: "observability",    items: ["Grafana LGTM", "ELK", "Datadog", "New Relic", "Sentry"] },
     { cat: "data",             items: ["MySQL", "PostgreSQL", "Redis", "Kafka", "BigQuery"] },
