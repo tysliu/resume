@@ -138,7 +138,7 @@
   .modal-foot { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--line); }
 
   @media print {
-    @page { size: A4; margin: 0; }
+    @page { size: A4; margin: 12mm 0; }
     html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body:not(.plain) { background: var(--bg); }
     body:not(.plain) .term { background: var(--bg); }
@@ -146,7 +146,7 @@
     .toolbar, .modal { display: none !important; }
     .cursor { display: none; }
     .term { width: auto; max-width: none; margin: 0; border: none; border-radius: 0; box-shadow: none; }
-    .body { padding: 10mm 12mm 12mm; }
+    .body { padding: 0 12mm; }
     .job, .edu-item { break-inside: avoid; page-break-inside: avoid; }
     .plain-head, .job-head, .proj { break-after: avoid; page-break-after: avoid; }
     body { font-size: 10.5px; line-height: 1.5; }
