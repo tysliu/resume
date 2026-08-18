@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simon Liu — Resume</title>
+<style>
+  :root {
+    --bg:      #0d1117;
+    --bar:     #161b22;
+    --text:    #c9d1d9;
+    --muted:   #6e7681;
+    --green:   #3fb950;
+    --bright:  #7ee787;
+    --blue:    #58a6ff;
+    --cyan:    #56d4dd;
+    --yellow:  #e3b341;
+    --magenta: #bc8cff;
+    --line:    #21262d;
+    --page-w:  860px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #05070a; color: var(--text);
+    font-family: "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 13px; line-height: 1.55;
+  }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 10px; background: rgba(5,7,10,0.9); border-bottom: 1px solid var(--line);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  }
+  .btn {
+    appearance: none; border: 1px solid var(--green); background: transparent; color: var(--bright);
+    font-family: inherit; font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 6px; cursor: pointer;
+  }
+  .btn:hover { background: rgba(63,185,80,0.15); }
+  .hint { color: var(--muted); font-size: 12px; }
+  .hint b { color: var(--bright); font-weight: 600; }
+
+  .term {
+    width: var(--page-w); max-width: 100%; margin: 22px auto; background: var(--bg);
+    border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); overflow: hidden;
+  }
+  .titlebar {
+    display: flex; align-items: center; gap: 8px; background: var(--bar); padding: 10px 14px;
+    border-bottom: 1px solid var(--line); -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .dot.r { background: #ff5f56; } .dot.y { background: #ffbd2e; } .dot.g { background: #27c93f; }
+  .tb-title { flex: 1; text-align: center; color: var(--muted); font-size: 12px; margin-right: 44px; }
+
+  .body { padding: 22px 26px 30px; }
+  .cmd { margin: 18px 0 8px; white-space: pre-wrap; }
+  .cmd:first-child { margin-top: 0; }
+  .prompt { color: var(--green); }
+  .prompt .u { color: var(--bright); } .prompt .h { color: var(--blue); } .prompt .p { color: var(--magenta); }
+  .cmd .c { color: var(--text); } .cmd .flag { color: var(--yellow); }
+  .out { padding-left: 2px; }
+  p { margin: 0 0 9px; }
+
+  .name-line { color: var(--bright); font-size: 20px; font-weight: 700; }
+  .role-line { color: var(--yellow); }
+  .tag-line { color: var(--muted); }
+
+  .kv { display: grid; grid-template-columns: 108px 1fr; gap: 2px 10px; }
+  .kv .k { color: var(--muted); }
+  .kv .v { color: var(--cyan); }
+  .kv a { color: var(--cyan); text-decoration: none; }
+  .kv a:hover { text-decoration: underline; }
+
+  .skills { display: grid; grid-template-columns: 150px 1fr; gap: 4px 10px; }
+  .skills .k { color: var(--muted); }
+  .skills .v { color: var(--cyan); }
+
+  .job { margin: 0 0 16px; break-inside: avoid; page-break-inside: avoid; }
+  .job-head { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; }
+  .job-co { color: var(--bright); font-weight: 700; }
+  .job-role { color: var(--yellow); }
+  .job-date { color: var(--muted); white-space: nowrap; text-align: right; }
+  .job-blurb { color: var(--text); margin: 4px 0 5px; }
+  .proj { color: var(--magenta); margin: 8px 0 3px; }
+  .proj::before { content: "## "; }
+  ul { list-style: none; margin: 3px 0 0; padding: 0; }
+  li { padding-left: 18px; position: relative; margin: 2px 0; }
+  li::before { content: "▹"; position: absolute; left: 2px; color: var(--green); }
+  .tools { color: var(--muted); margin-top: 6px; }
+  .tools::before { content: "# "; color: var(--muted); }
+  .tools b { color: var(--text); font-weight: 600; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .edu-school { color: var(--bright); font-weight: 700; }
+  .edu-detail { color: var(--muted); }
+  .lang b { color: var(--cyan); } .lang span { color: var(--muted); }
+
+  .cursor { display: inline-block; width: 9px; height: 15px; background: var(--bright);
+            vertical-align: text-bottom; animation: blink 1.05s steps(1) infinite;
+            -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Plain / print-friendly theme (black on white, document-style headings) */
+  .plain-head { display: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px;
+                color: #111; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin: 20px 0 10px; font-weight: 700; }
+  body.plain { background: #fff; color: #1a1a1a; }
+  body.plain .term { background: #fff; border: none; box-shadow: none; }
+  body.plain .titlebar { display: none; }
+  body.plain .cmd { display: none; }
+  body.plain .plain-head { display: block; }
+  body.plain .cursor { display: none; }
+  body.plain .name-line { color: #111; }
+  body.plain .role-line { color: #333; font-weight: 600; }
+  body.plain .tag-line { color: #555; }
+  body.plain .job-blurb { color: #1a1a1a; }
+  body.plain .kv .k, body.plain .skills .k, body.plain .job-date,
+  body.plain .edu-detail, body.plain .lang span, body.plain .tools { color: #555; }
+  body.plain .kv .v, body.plain .kv a, body.plain .skills .v, body.plain .job-co,
+  body.plain .job-role, body.plain .proj, body.plain .edu-school,
+  body.plain .lang b, body.plain .tools b { color: #111; }
+  body.plain .kv a { text-decoration: underline; }
+  body.plain .job-role { font-weight: 600; }
+  body.plain li::before { content: "•"; color: #111; }
+  body.plain .proj::before { content: ""; }
+  body.plain .tools::before { content: ""; }
+
+  /* LinkedIn modal */
+  .modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.6);
+           display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal[hidden] { display: none; }
+  .modal-box { width: 760px; max-width: 100%; max-height: 86vh; display: flex; flex-direction: column;
+               background: var(--bg); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .modal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px;
+                padding: 12px 14px; background: var(--bar); border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+  .modal-head button { background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: 16px; }
+  #li-text { flex: 1; min-height: 320px; resize: none; border: none; outline: none; padding: 16px;
+             background: var(--bg); color: var(--text); font-family: inherit; font-size: 12.5px; line-height: 1.55; }
+  .modal-foot { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--line); }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body:not(.plain) { background: var(--bg); }
+    body:not(.plain) .term { background: var(--bg); }
+    body.plain, body.plain .term { background: #fff; }
+    .toolbar, .modal { display: none !important; }
+    .cursor { display: none; }
+    .term { width: auto; max-width: none; margin: 0; border: none; border-radius: 0; box-shadow: none; }
+    .body { padding: 10mm 12mm 12mm; }
+    .job, .edu-item { break-inside: avoid; page-break-inside: avoid; }
+    .plain-head, .job-head, .proj { break-after: avoid; page-break-after: avoid; }
+    body { font-size: 10.5px; line-height: 1.5; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn" onclick="window.print()">▍ Download PDF</button>
+  <button class="btn" id="themeBtn" onclick="toggleTheme()">◑ Plain / print view</button>
+  <button class="btn" onclick="openLi()">⧉ Copy LinkedIn text</button>
+  <span class="hint">PDF: pick <b>Save as PDF</b>. Terminal view also needs <b>Background graphics</b> on.</span>
+</div>
+
+<div class="term">
+  <div class="titlebar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="tb-title">simon@career: ~/resume — zsh</span>
+  </div>
+  <div class="body" id="app"><!-- rendered from resume.data.js --></div>
+</div>
+
+<div class="modal" id="li-modal" hidden>
+  <div class="modal-box">
+    <div class="modal-head">
+      <span>LinkedIn text — generated from resume.data.js (edit that file, not this)</span>
+      <button onclick="closeLi()" aria-label="Close">✕</button>
+    </div>
+    <textarea id="li-text" readonly spellcheck="false"></textarea>
+    <div class="modal-foot">
+      <button class="btn" onclick="copyLi()">Copy to clipboard</button>
+      <span class="hint" id="li-status"></span>
+    </div>
+  </div>
+</div>
+
+<script src="resume.data.js"></script>
+<script>
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const PROMPT = '<span class="prompt"><span class="u">simon</span>@<span class="h">career</span>:<span class="p">~</span>$</span>';
+  const cmd = c => `<div class="cmd">${PROMPT} ${c}</div>`;
+  const head = (c, title) => `<div class="cmd">${PROMPT} ${c}</div><h2 class="plain-head">${esc(title)}</h2>`;
+  const bullets = arr => `<ul>${arr.map(b => `<li>${esc(b)}</li>`).join("")}</ul>`;
+
+  function renderJob(j) {
+    let h = `<div class="job"><div class="job-head">`
+          + `<div><span class="job-co">${esc(j.handle || j.company)}</span> <span class="job-role">${esc(j.role)}</span></div>`
+          + `<div class="job-date">${esc(j.date)}${j.location ? " · " + esc(j.location) : ""}</div></div>`;
+    if (j.blurb) h += `<p class="job-blurb">${esc(j.blurb)}</p>`;
+    if (j.bullets) h += bullets(j.bullets);
+    if (j.projects) j.projects.forEach(p => { h += `<p class="proj">${esc(p.title)}</p>` + bullets(p.bullets); });
+    if (j.note) h += `<p class="tools">${esc(j.note)}</p>`;
+    if (j.tools) h += `<p class="tools"><b>Tools:</b> ${esc(j.tools)}</p>`;
+    return h + `</div>`;
+  }
+
+  function render() {
+    const R = RESUME;
+    const whoami = `<p class="name-line">${esc(R.name)}</p>`
+                 + `<p class="role-line">${esc(R.role)}</p>`
+                 + `<p class="tag-line">// ${esc(R.tagline)}</p>`
+                 + `<p class="tag-line">${esc(R.location)}</p>`;
+    const contact = `<div class="kv"><span class="k">linkedin</span>`
+                  + `<span class="v"><a href="${esc(R.linkedinUrl)}" target="_blank" rel="noopener">${esc(R.linkedin)}</a></span>`
+                  + `<span class="k">github</span>`
+                  + `<span class="v"><a href="${esc(R.githubUrl)}" target="_blank" rel="noopener">${esc(R.github)}</a></span></div>`;
+    const about = R.summary.map(p => `<p>${esc(p)}</p>`).join("");
+    const skills = `<div class="skills">` + R.skills.map(s =>
+        `<span class="k">${esc(s.cat)}</span><span class="v">${s.items.map(esc).join(" · ")}</span>`).join("") + `</div>`;
+    const jobs = R.experience.map(renderJob).join("");
+    const edu = R.education.map(e =>
+        `<div class="edu-item"><div class="edu-school">${esc(e.school)}</div>`
+      + `<div class="edu-detail">${esc(e.degree)} · ${esc(e.year)}</div>`
+      + `<div class="edu-detail">${esc(e.detail)}</div></div>`).join("");
+    const langs = R.languages.map(l =>
+        `<p class="lang"><b>${esc(l.name)}</b> <span>— ${esc(l.level)}</span></p>`).join("");
+
+    document.getElementById("app").innerHTML =
+        cmd('<span class="c">whoami</span>') + `<div class="out">${whoami}</div>`
+      + cmd('<span class="c">cat</span> contact.txt') + `<div class="out">${contact}</div>`
+      + head('<span class="c">cat</span> about.md', 'Summary') + `<div class="out">${about}</div>`
+      + head('<span class="c">skills</span> <span class="flag">--grouped</span>', 'Skills') + `<div class="out">${skills}</div>`
+      + head('<span class="c">git log</span> <span class="flag">--oneline</span> ~/experience', 'Experience') + `<div class="out">${jobs}</div>`
+      + `<div class="two"><div>${head('<span class="c">cat</span> education.txt', 'Education')}<div class="out">${edu}</div></div>`
+      + `<div>${head('<span class="c">locale</span>', 'Languages')}<div class="out">${langs}</div></div></div>`
+      + cmd('<span class="cursor"></span>');
+  }
+
+  function buildLinkedIn() {
+    const R = RESUME, o = [];
+    o.push("=== HEADLINE ===", "", R.headline, "");
+    o.push("=== ABOUT ===", "");
+    R.summary.forEach(p => o.push(p, ""));
+    o.push("Core stack: " + R.skills.flatMap(s => s.items).join(" · "), "");
+    o.push("=== EXPERIENCE ===", "");
+    R.experience.forEach(j => {
+      o.push(`${j.company} — ${j.role}  (${j.date}${j.location ? " · " + j.location : ""})`);
+      if (j.blurb) o.push(j.blurb);
+      if (j.bullets) j.bullets.forEach(b => o.push("• " + b));
+      if (j.projects) j.projects.forEach(p => { o.push(p.title); p.bullets.forEach(b => o.push("• " + b)); });
+      if (j.note) o.push(j.note);
+      if (j.tools) o.push("Tools: " + j.tools);
+      o.push("");
+    });
+    o.push("=== EDUCATION ===", "");
+    R.education.forEach(e => o.push(`${e.school} — ${e.degree}, ${e.detail} (${e.year})`));
+    o.push("");
+    o.push("=== TOP SKILLS (pin these three under Skills) ===", "");
+    R.topSkills.forEach(s => o.push(s));
+    o.push("");
+    o.push("=== LANGUAGES ===", "");
+    R.languages.forEach(l => o.push(`${l.name} — ${l.level}`));
+    return o.join("\n");
+  }
+
+  function openLi() {
+    document.getElementById("li-text").value = buildLinkedIn();
+    document.getElementById("li-status").textContent = "";
+    document.getElementById("li-modal").hidden = false;
+  }
+  function closeLi() { document.getElementById("li-modal").hidden = true; }
+  function copyLi() {
+    const ta = document.getElementById("li-text");
+    ta.select();
+    const done = ok => { document.getElementById("li-status").textContent = ok ? "Copied ✓" : "Select the text and copy manually."; };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(ta.value).then(() => done(true)).catch(() => done(!!document.execCommand("copy")));
+    } else {
+      done(!!document.execCommand("copy"));
+    }
+  }
+  document.getElementById("li-modal").addEventListener("click", e => { if (e.target.id === "li-modal") closeLi(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeLi(); });
+
+  function setTheme(plain) {
+    document.body.classList.toggle("plain", plain);
+    document.documentElement.style.background = plain ? "#fff" : "#05070a";
+    document.getElementById("themeBtn").textContent = plain ? "◐ Terminal view" : "◑ Plain / print view";
+    try { localStorage.setItem("resumeTheme", plain ? "plain" : "dark"); } catch (e) {}
+  }
+  function toggleTheme() { setTheme(!document.body.classList.contains("plain")); }
+
+  render();
+  try { if (localStorage.getItem("resumeTheme") === "plain") setTheme(true); } catch (e) {}
+</script>
+</body>
+</html>
