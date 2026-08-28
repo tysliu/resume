@@ -307,7 +307,7 @@
   function toggleTheme() { setTheme(!document.body.classList.contains("plain")); }
 
   render();
-  try { if (localStorage.getItem("resumeTheme") === "plain") setTheme(true); } catch (e) {}
+  try { setTheme(localStorage.getItem("resumeTheme") !== "dark"); } catch (e) { setTheme(true); }
 </script>
 </body>
 </html>
