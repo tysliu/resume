@@ -61,7 +61,8 @@ const RESUME = {
       bullets: [
         "Led a team of 4 owning DevOps/SRE for the exchange across all environments.",
         "Planned and led a complex production region migration (Tokyo → Singapore) for compliance — 30 microservices and all dependencies, completed within the targeted 10-hour window.",
-        "Introduced Infrastructure as Code (AWS + Terraform) as the standard for every environment."
+        "Introduced Infrastructure as Code (AWS + Terraform) as the standard for every environment.",
+        "Owned the ELK stack for centralized logging and observability across the exchange."
       ]
     },
     {
