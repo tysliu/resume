@@ -78,6 +78,8 @@
   .job { margin: 0 0 16px; break-inside: avoid; page-break-inside: avoid; }
   .job-head { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; }
   .job-co { color: var(--bright); font-weight: 700; }
+  .job-co a { color: inherit; text-decoration: none; }
+  .job-co a:hover { text-decoration: underline; }
   .job-role { color: var(--yellow); }
   .job-date { color: var(--muted); white-space: nowrap; text-align: right; }
   .job-blurb { color: var(--text); margin: 4px 0 5px; }
@@ -118,7 +120,7 @@
   body.plain .kv .v, body.plain .kv a, body.plain .skills .v, body.plain .job-co,
   body.plain .job-role, body.plain .proj, body.plain .edu-school,
   body.plain .lang b, body.plain .tools b { color: #111; }
-  body.plain .kv a { text-decoration: underline; }
+  body.plain .kv a, body.plain .job-co a { text-decoration: underline; }
   body.plain .job-role { font-weight: 600; }
   body.plain li::before { content: "•"; color: #111; }
   body.plain .proj::before { content: ""; }
@@ -204,6 +206,18 @@
     return h + `</div>`;
   }
 
+  function renderProject(p) {
+    const name = p.url
+      ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>`
+      : esc(p.name);
+    let h = `<div class="job"><div class="job-head">`
+          + `<div><span class="job-co">${name}</span> <span class="job-role">${esc(p.role)}</span></div>`
+          + `<div class="job-date">${esc(p.org)}${p.date ? " · " + esc(p.date) : ""}</div></div>`;
+    if (p.blurb) h += `<p class="job-blurb">${esc(p.blurb)}</p>`;
+    if (p.bullets) h += bullets(p.bullets);
+    return h + `</div>`;
+  }
+
   function render() {
     const R = RESUME;
     const whoami = `<p class="name-line">${esc(R.name)}</p>`
@@ -217,6 +231,7 @@
     const about = R.summary.map(p => `<p>${esc(p)}</p>`).join("");
     const skills = `<div class="skills">` + R.skills.map(s =>
         `<span class="k">${esc(s.cat)}</span><span class="v">${s.items.map(esc).join(" · ")}</span>`).join("") + `</div>`;
+    const projects = (R.projects || []).map(renderProject).join("");
     const jobs = R.experience.map(renderJob).join("");
     const edu = R.education.map(e =>
         `<div class="edu-item"><div class="edu-school">${esc(e.school)}</div>`
@@ -230,6 +245,7 @@
       + cmd('<span class="c">cat</span> contact.txt') + `<div class="out">${contact}</div>`
       + head('<span class="c">cat</span> about.md', 'Summary') + `<div class="out">${about}</div>`
       + head('<span class="c">skills</span> <span class="flag">--grouped</span>', 'Skills') + `<div class="out">${skills}</div>`
+      + head('<span class="c">ls</span> <span class="flag">--featured</span> ~/projects', 'Projects and Achievements') + `<div class="out">${projects}</div>`
       + head('<span class="c">git log</span> <span class="flag">--oneline</span> ~/experience', 'Experience') + `<div class="out">${jobs}</div>`
       + `<div class="two"><div>${head('<span class="c">cat</span> education.txt', 'Education')}<div class="out">${edu}</div></div>`
       + `<div>${head('<span class="c">locale</span>', 'Languages')}<div class="out">${langs}</div></div></div>`
