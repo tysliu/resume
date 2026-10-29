@@ -37,49 +37,6 @@ const RESUME = {
     { cat: "languages",        items: ["Python", "Rust", "Ruby on Rails", "Solidity"] }
   ],
 
-  // Featured products/projects — rendered as its own section, above Experience.
-  projects: [
-    {
-      name: "CDC Vault",
-      org: "Crypto.com",
-      role: "Sr. Blockchain Security DevOps",
-      date: "2025 – 2026",
-      blurb: "Secure blockchain custody platform for a top global crypto exchange.",
-      bullets: [
-        "Architected and operated secure multi-cloud (AWS & Azure) custody infrastructure using K8s and Terraform.",
-        "Led an Intel SGX chip upgrade and rollout for hardware-backed cryptographic protection and trusted execution.",
-        "Operated 40+ blockchain nodes across protocols, owning monitoring, version upgrades, and data pruning."
-      ]
-    },
-    {
-      name: "exchange.xrex.io",
-      org: "XREX Inc.",
-      role: "Lead DevOps / SRE",
-      date: "2021 – 2025",
-      url: "https://exchange.xrex.io",
-      blurb: "Cross-border fintech exchange for emerging markets.",
-      bullets: [
-        "Led a team of 4 owning DevOps/SRE for the exchange across all environments.",
-        "Planned and led a complex production region migration (Tokyo → Singapore) for compliance — 30 microservices and all dependencies, completed within the targeted 10-hour window.",
-        "Introduced Infrastructure as Code (AWS + Terraform) as the standard for every environment.",
-        "Owned the ELK stack for centralized logging and observability across the exchange."
-      ]
-    },
-    {
-      name: "Dragon Ball Z Dokkan Battle",
-      org: "Akatsuki Taiwan Inc.",
-      role: "Sr. Server Engineer",
-      date: "2016 – 2018",
-      blurb: "One of the world's long-running top-ranked mobile games (2M+ RPM, 1M+ DAU).",
-      bullets: [
-        "Owned the server side, driving solutions across system bottlenecks and product features.",
-        "Scaled the platform from 40k to 2M+ requests per minute as the audience grew.",
-        "Led a team of 4 and built the customer support system and operation tooling from scratch.",
-        "Ran regular stress tests to keep the game stable at massive concurrent load."
-      ]
-    }
-  ],
-
   experience: [
     {
       company: "Crypto.com",
