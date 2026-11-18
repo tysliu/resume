@@ -24,6 +24,7 @@ const RESUME = {
 
   summary: [
     "I build and secure cloud infrastructure that stays reliable at scale — standing up platforms from 0 to 1 and hardening them as they grow. Over 13+ years I've grown from backend engineer to DevOps/SRE tech lead, leading the teams and platforms behind products serving 1M+ daily users and 2M+ requests per minute.",
+    "My recent work is on regulated financial platforms — crypto custody and cross-border fintech — where I apply SRE practices, cloud security architecture, and Infrastructure as Code to build and run resilient multi-region infrastructure.",
     "What I care about: reliability, security, cost efficiency, and leveling up the people around me. Outside of work I'm a triathlete — the same appetite for endurance and marginal gains shows up in how I approach systems."
   ],
 
@@ -34,7 +35,8 @@ const RESUME = {
     { cat: "observability",    items: ["Grafana LGTM", "ELK", "Datadog", "New Relic", "Sentry"] },
     { cat: "data",             items: ["MySQL", "PostgreSQL", "Redis", "Kafka", "BigQuery"] },
     { cat: "security",         items: ["Intel SGX", "Secret management", "Privileged access control", "Vulnerability remediation"] },
-    { cat: "languages",        items: ["Python", "Rust", "Ruby on Rails", "Solidity"] }
+    { cat: "languages",        items: ["Python", "Rust", "Ruby on Rails", "Solidity"] },
+    { cat: "ai-assisted engineering", items: ["GitHub Copilot", "Claude"] }
   ],
 
   experience: [
@@ -46,7 +48,8 @@ const RESUME = {
       location: "Taiwan",
       blurb: "Secured and automated blockchain custodian infrastructure for a top global crypto platform.",
       bullets: [
-        "Architected and operated secure multi-cloud environments (AWS & Azure) using K8s and Terraform, enforcing a strict security posture across mission-critical custody.",
+        "Architected and operated secure multi-cloud environments (AWS & Azure) using K8s and Terraform, with separate AWS accounts, IAM boundaries, VPC/networking, and account-level security controls for mission-critical custody.",
+        "Managed 200 blockchain nodes across multiple protocols for multi-chain custody infrastructure.",
         "Led an Intel SGX chip upgrade and rollout for hardware-backed cryptographic protection and trusted execution.",
         "Planned and implemented disaster recovery to keep custody operational should the primary network fail."
       ]
