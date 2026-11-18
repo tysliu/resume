@@ -53,17 +53,22 @@
   .tb-title { flex: 1; text-align: center; color: var(--muted); font-size: 12px; margin-right: 44px; }
 
   .body { padding: 22px 26px 30px; }
-  .cmd { margin: 18px 0 8px; white-space: pre-wrap; }
-  .cmd:first-child { margin-top: 0; }
+  .cmd { margin: 22px 0 8px; white-space: pre-wrap; }
+  .body > .cmd:first-child { margin-top: 0; }
+
+  /* Section headings: plain view only. In the terminal view the prompt
+     (e.g. `cat education.txt`) is the section marker. */
+  .sec-head { display: none; margin: 20px 0 10px; padding-bottom: 4px; border-bottom: 1px solid #ccc;
+              font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: #111; }
   .prompt { color: var(--green); }
   .prompt .u { color: var(--bright); } .prompt .h { color: var(--blue); } .prompt .p { color: var(--magenta); }
   .cmd .c { color: var(--text); } .cmd .flag { color: var(--yellow); }
   .out { padding-left: 2px; }
   p { margin: 0 0 9px; }
 
-  .name-line { color: var(--bright); font-size: 20px; font-weight: 700; }
-  .role-line { color: var(--yellow); }
-  .tag-line { color: var(--muted); }
+  .name-line { color: var(--bright); font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .role-line { color: var(--yellow); margin-bottom: 3px; }
+  .tag-line { color: var(--muted); margin-bottom: 3px; }
 
   .kv { display: grid; grid-template-columns: 108px 1fr; gap: 2px 10px; }
   .kv .k { color: var(--muted); }
@@ -71,11 +76,13 @@
   .kv a { color: var(--cyan); text-decoration: none; }
   .kv a:hover { text-decoration: underline; }
 
-  .skills { display: grid; grid-template-columns: minmax(150px, max-content) 1fr; gap: 4px 10px; }
+  /* Fixed label column (fits the longest label, "ai-assisted engineering"),
+     extra space between groups so a wrapped value line reads as part of its group. */
+  .skills { display: grid; grid-template-columns: 24ch 1fr; gap: 6px 10px; }
   .skills .k { color: var(--muted); }
   .skills .v { color: var(--cyan); }
 
-  .job { margin: 0 0 16px; break-inside: avoid; page-break-inside: avoid; }
+  .job { margin: 0 0 16px; }
   .job-head { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; }
   .job-co { color: var(--bright); font-weight: 700; }
   .job-role { color: var(--yellow); }
@@ -83,17 +90,23 @@
   .job-blurb { color: var(--text); margin: 4px 0 5px; }
   .proj { color: var(--magenta); margin: 8px 0 3px; }
   .proj::before { content: "## "; }
-  ul { list-style: none; margin: 3px 0 0; padding: 0; }
-  li { padding-left: 18px; position: relative; margin: 2px 0; }
+  ul { list-style: none; margin: 4px 0 0; padding: 0; }
+  li { padding-left: 18px; position: relative; margin: 4px 0; }
   li::before { content: "▹"; position: absolute; left: 2px; color: var(--green); }
   .tools { color: var(--muted); margin-top: 6px; }
   .tools::before { content: "# "; color: var(--muted); }
   .tools b { color: var(--text); font-weight: 600; }
 
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .edu-school { color: var(--bright); font-weight: 700; }
   .edu-detail { color: var(--muted); }
+  .lang { margin: 0 0 2px; }
   .lang b { color: var(--cyan); } .lang span { color: var(--muted); }
+  /* Education and Languages: separate stacked sections, never side by side. */
+  .end-sec { break-inside: avoid; page-break-inside: avoid; }
+  .end-sec + .end-sec { padding-top: 8px; }
+  /* Keep hyphenated words (mission-critical, multi-region…) from splitting
+     across lines; the text itself is unchanged. */
+  .nw { white-space: nowrap; }
 
   .cursor { display: inline-block; width: 9px; height: 15px; background: var(--bright);
             vertical-align: text-bottom; animation: blink 1.05s steps(1) infinite;
@@ -101,13 +114,11 @@
   @keyframes blink { 50% { opacity: 0; } }
 
   /* Plain / print-friendly theme (black on white, document-style headings) */
-  .plain-head { display: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px;
-                color: #111; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin: 20px 0 10px; font-weight: 700; }
   body.plain { background: #fff; color: #1a1a1a; }
   body.plain .term { background: #fff; border: none; box-shadow: none; }
   body.plain .titlebar { display: none; }
   body.plain .cmd { display: none; }
-  body.plain .plain-head { display: block; }
+  body.plain .sec-head { display: block; }
   body.plain .cursor { display: none; }
   body.plain .name-line { color: #111; }
   body.plain .role-line { color: #333; font-weight: 600; }
@@ -138,18 +149,37 @@
   .modal-foot { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--line); }
 
   @media print {
-    @page { size: A4; margin: 12mm 0; }
+    /* Declaring the margin boxes (even empty) stops Chrome printing its own
+       title/URL header and footer when "Headers and footers" is ticked. */
+    @page {
+      size: A4; margin: 0.55in 0;
+      @top-left { content: ""; } @top-right { content: ""; }
+      @bottom-left { content: ""; } @bottom-right { content: ""; }
+    }
     html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body:not(.plain) { background: var(--bg); }
+    html:has(body:not(.plain)) { background: var(--bg) !important; }
     body:not(.plain) .term { background: var(--bg); }
     body.plain, body.plain .term { background: #fff; }
     .toolbar, .modal { display: none !important; }
     .cursor { display: none; }
     .term { width: auto; max-width: none; margin: 0; border: none; border-radius: 0; box-shadow: none; }
-    .body { padding: 0 12mm; }
-    .job, .edu-item { break-inside: avoid; page-break-inside: avoid; }
-    .plain-head, .job-head, .proj { break-after: avoid; page-break-after: avoid; }
-    body { font-size: 10.5px; line-height: 1.5; }
+    .body { padding: 0 0.6in; }
+    body { font-size: 9pt; line-height: 1.35; }
+    body:not(.plain) { font-size: 8.5pt; } /* terminal view: prompt lines need the room */
+    .name-line { font-size: 15pt; }
+    .sec-head { font-size: 12pt; margin: 16px 0 8px; }
+    .cmd { margin: 18px 0 8px; }
+    .body > .cmd:last-child { margin-top: 10px; } /* closing prompt stays on page 2 */
+    .job { margin-bottom: 12px; }
+    /* Gap between bullets clearly larger than between a bullet's wrapped lines. */
+    ul { margin-top: 5px; }
+    li { margin: 5px 0; }
+    .skills { row-gap: 5px; }
+    /* Long roles may split between bullets; a heading never ends a page, and
+       the first (current) role stays on one page. */
+    .job:first-child, li, .job-head, .tools, .edu-item { break-inside: avoid; page-break-inside: avoid; }
+    .cmd, .sec-head, .job-head, .job-blurb, .proj { break-after: avoid; page-break-after: avoid; }
   }
 </style>
 </head>
@@ -189,17 +219,19 @@
   const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   const PROMPT = '<span class="prompt"><span class="u">simon</span>@<span class="h">career</span>:<span class="p">~</span>$</span>';
   const cmd = c => `<div class="cmd">${PROMPT} ${c}</div>`;
-  const head = (c, title) => `<div class="cmd">${PROMPT} ${c}</div><h2 class="plain-head">${esc(title)}</h2>`;
-  const bullets = arr => `<ul>${arr.map(b => `<li>${esc(b)}</li>`).join("")}</ul>`;
+  const head = (c, title) => `<div class="cmd">${PROMPT} ${c}</div><h2 class="sec-head">${esc(title)}</h2>`;
+  // Prose text: escaped, with hyphenated words wrapped so they never break at the hyphen.
+  const txt = s => esc(s).replace(/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+/g, m => `<span class="nw">${m}</span>`);
+  const bullets = arr => `<ul>${arr.map(b => `<li>${txt(b)}</li>`).join("")}</ul>`;
 
   function renderJob(j) {
     let h = `<div class="job"><div class="job-head">`
           + `<div><span class="job-co">${esc(j.handle || j.company)}</span> <span class="job-role">${esc(j.role)}</span></div>`
           + `<div class="job-date">${esc(j.date)}${j.location ? " · " + esc(j.location) : ""}</div></div>`;
-    if (j.blurb) h += `<p class="job-blurb">${esc(j.blurb)}</p>`;
+    if (j.blurb) h += `<p class="job-blurb">${txt(j.blurb)}</p>`;
     if (j.bullets) h += bullets(j.bullets);
     if (j.projects) j.projects.forEach(p => { h += `<p class="proj">${esc(p.title)}</p>` + bullets(p.bullets); });
-    if (j.note) h += `<p class="tools">${esc(j.note)}</p>`;
+    if (j.note) h += `<p class="tools">${txt(j.note)}</p>`;
     if (j.tools) h += `<p class="tools"><b>Tools:</b> ${esc(j.tools)}</p>`;
     return h + `</div>`;
   }
@@ -214,9 +246,13 @@
                   + `<span class="v"><a href="${esc(R.linkedinUrl)}" target="_blank" rel="noopener">${esc(R.linkedin)}</a></span>`
                   + `<span class="k">github</span>`
                   + `<span class="v"><a href="${esc(R.githubUrl)}" target="_blank" rel="noopener">${esc(R.github)}</a></span></div>`;
-    const about = R.summary.map(p => `<p>${esc(p)}</p>`).join("");
+    const about = R.summary.map(p => `<p>${txt(p)}</p>`).join("");
+    // Each skill (plus its trailing " ·") is unbreakable, so wraps happen only
+    // between skills and a wrapped line never starts with a separator.
     const skills = `<div class="skills">` + R.skills.map(s =>
-        `<span class="k">${esc(s.cat)}</span><span class="v">${s.items.map(esc).join(" · ")}</span>`).join("") + `</div>`;
+        `<span class="k">${esc(s.cat)}</span><span class="v">`
+      + s.items.map((it, i) => `<span class="nw">${esc(it)}${i < s.items.length - 1 ? " ·" : ""}</span>`).join(" ")
+      + `</span>`).join("") + `</div>`;
     const jobs = R.experience.map(renderJob).join("");
     const edu = R.education.map(e =>
         `<div class="edu-item"><div class="edu-school">${esc(e.school)}</div>`
@@ -231,8 +267,8 @@
       + head('<span class="c">cat</span> about.md', 'Summary') + `<div class="out">${about}</div>`
       + head('<span class="c">skills</span> <span class="flag">--grouped</span>', 'Skills') + `<div class="out">${skills}</div>`
       + head('<span class="c">git log</span> <span class="flag">--oneline</span> ~/experience', 'Experience') + `<div class="out">${jobs}</div>`
-      + `<div class="two"><div>${head('<span class="c">cat</span> education.txt', 'Education')}<div class="out">${edu}</div></div>`
-      + `<div>${head('<span class="c">locale</span>', 'Languages')}<div class="out">${langs}</div></div></div>`
+      + `<section class="end-sec">${head('<span class="c">cat</span> education.txt', 'Education')}<div class="out">${edu}</div></section>`
+      + `<section class="end-sec">${head('<span class="c">locale</span>', 'Languages')}<div class="out">${langs}</div></section>`
       + cmd('<span class="cursor"></span>');
   }
 
