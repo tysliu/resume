@@ -46,7 +46,7 @@ const RESUME = {
       role: "Sr. Blockchain Security DevOps",
       date: "May 2025 – Jul 2026",
       location: "Taiwan",
-      blurb: "Secured and automated blockchain custodian infrastructure for a top global crypto platform.",
+      blurb: "Secured and automated blockchain custodian infrastructure protecting billions of dollars in digital assets for a top global crypto platform.",
       bullets: [
         "Architected and operated secure multi-cloud environments (AWS & Azure) using K8s and Terraform, with separate AWS accounts, IAM boundaries, VPC/networking, and account-level security controls for mission-critical custody.",
         "Managed 200 blockchain nodes across multiple protocols for multi-chain custody infrastructure.",
